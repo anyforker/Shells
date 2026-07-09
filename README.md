@@ -1,22 +1,18 @@
 # Shells
 
-一些常用服务器安装脚本。
+常用服务器脚本集合。
 
-## install-snellv5.sh
+根目录保留可直接下载执行的脚本入口，详细使用文档放在 `docs/scripts/`。后续新增脚本时，同步新增一份对应文档，并在下面的索引里登记。
 
-`install-snellv5.sh` 用于在 systemd Linux 服务器上一键安装或更新 Snell Server v5.0.1。
+## 脚本索引
 
-已适配：
+| 脚本 | 分类 | 用途 | 适用环境 | 文档 |
+| --- | --- | --- | --- | --- |
+| `install-snellv5.sh` | 网络代理 / 服务安装 | 安装或更新 Snell Server v5.0.1 | systemd Linux，支持 `apt-get` / `dnf` / `yum` / `zypper`，支持 `linux-amd64` / `linux-aarch64` | [使用文档](docs/scripts/install-snellv5.md) |
 
-- Debian 12.7 / Ubuntu: `apt-get`
-- CentOS / RHEL: `yum` 或 `dnf`
-- openSUSE: `zypper`
-- `linux-amd64`
-- `linux-aarch64`
+## 快速使用
 
-## 使用方法
-
-在服务器上执行：
+以 `install-snellv5.sh` 为例：
 
 ```bash
 wget https://raw.githubusercontent.com/anyforker/Shells/main/install-snellv5.sh
@@ -30,54 +26,17 @@ sudo ./install-snellv5.sh
 sudo bash install-snellv5.sh
 ```
 
-## 安装过程
+## 目录约定
 
-脚本会交互提示：
+- `*.sh`：可直接下载执行的脚本。
+- `docs/scripts/*.md`：每个脚本对应的使用文档。
+- `docs/scripts/_template.md`：新增脚本文档模板。
+- `README.md`：脚本总索引、目录规范和新增脚本流程。
 
-- 监听端口，默认 `80`
-- 自定义 PSK 密码，留空则自动生成
-- 是否开启 HTTP 混淆
-- 混淆域名，默认 `www.bing.com`
+## 新增脚本流程
 
-如果检测到已有配置文件 `/etc/snell/snell-server.conf`，会询问是否保留原配置。
-
-## 安装位置
-
-脚本会写入：
-
-- Snell 二进制：`/usr/local/bin/snell-server`
-- 配置文件：`/etc/snell/snell-server.conf`
-- systemd 服务：`/etc/systemd/system/snell.service`
-
-## 服务管理
-
-查看状态：
-
-```bash
-systemctl status snell
-```
-
-重启服务：
-
-```bash
-sudo systemctl restart snell
-```
-
-查看日志：
-
-```bash
-journalctl -u snell -e
-```
-
-停止服务：
-
-```bash
-sudo systemctl stop snell
-```
-
-## 注意事项
-
-- 需要 root 权限或通过 `sudo` 执行。
-- 服务器需要使用 systemd。
-- 安装完成后，请在云服务器安全组或防火墙中放行对应 TCP 端口。
-- 如果下载失败，请确认服务器可以访问 `https://dl.nssurge.com`。
+1. 在根目录新增脚本，脚本名使用小写短横线命名，例如 `install-example.sh`。
+2. 确认脚本可执行，并尽量让脚本具备明确的错误提示和重复执行处理。
+3. 复制 `docs/scripts/_template.md`，在 `docs/scripts/` 下新增同名文档，例如 `docs/scripts/install-example.md`。
+4. 文档建议包含：用途、适用环境、使用方法、交互项或参数、安装/写入位置、服务管理、注意事项。
+5. 在 README 的“脚本索引”中新增一行，链接到对应文档。
