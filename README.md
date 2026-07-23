@@ -8,6 +8,7 @@
 
 | 脚本 | 分类 | 用途 | 适用环境 | 文档 |
 | --- | --- | --- | --- | --- |
+| `install-hysteria2.sh` | 网络代理 / 服务安装 | 安装并配置 Hysteria 2 服务端 | Debian 13、systemd、`apt-get` | [使用文档](docs/scripts/install-hysteria2.md) |
 | `install-snellv5.sh` | 网络代理 / 服务安装 | 安装或更新 Snell Server v5.0.1 | systemd Linux，支持 `apt-get` / `dnf` / `yum` / `zypper`，支持 `linux-amd64` / `linux-aarch64` | [使用文档](docs/scripts/install-snellv5.md) |
 
 ## 快速使用
@@ -24,6 +25,21 @@ sudo ./install-snellv5.sh
 
 ```bash
 sudo bash install-snellv5.sh
+```
+
+安装 Hysteria 2 前，需要先将域名解析到服务器。脚本可交互输入域名和 ACME 邮箱：
+
+```bash
+wget https://raw.githubusercontent.com/anyforker/Shells/main/install-hysteria2.sh
+sudo bash install-hysteria2.sh
+```
+
+也可以通过参数执行：
+
+```bash
+sudo bash install-hysteria2.sh \
+  --domain hy2.example.com \
+  --email admin@example.com
 ```
 
 ## 目录约定
