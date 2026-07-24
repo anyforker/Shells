@@ -10,6 +10,7 @@
 | --- | --- | --- | --- | --- |
 | `install-hysteria2.sh` | 网络代理 / 服务安装 | 安装并配置 Hysteria 2 服务端 | Debian 13、systemd、`apt-get` | [使用文档](docs/scripts/install-hysteria2.md) |
 | `install-snellv5.sh` | 网络代理 / 服务安装 | 安装或更新 Snell Server v5.0.1 | systemd Linux，支持 `apt-get` / `dnf` / `yum` / `zypper`，支持 `linux-amd64` / `linux-aarch64` | [使用文档](docs/scripts/install-snellv5.md) |
+| `install-snellv6.sh` | 网络代理 / 服务安装 | 独立安装或更新 Snell Server v6 Beta | systemd Linux，支持 `apt-get` / `dnf` / `yum` / `zypper`，支持 `linux-amd64` / `linux-aarch64` / `linux-i386` | [使用文档](docs/scripts/install-snellv6.md) |
 
 ## 快速使用
 

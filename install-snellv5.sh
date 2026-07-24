@@ -67,7 +67,9 @@ if ! command_exists systemctl; then
 fi
 
 # 2. 重复安装/配置检查
-CONF_FILE="/etc/snell/snell-server.conf"
+CONF_FILE="/etc/snell/snell-v5-server.conf"
+SERVICE_NAME="snell-v5"
+SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 KEEP_CONFIG=false
 SNELL_PORT=""
 RANDOM_PSK=""
@@ -115,7 +117,7 @@ install_dependencies
 
 # 5. 下载并安装二进制文件
 info "正在下载 Snell v5.0.1..."
-systemctl stop snell 2>/dev/null || true
+systemctl stop "$SERVICE_NAME" 2>/dev/null || true
 SNELL_ARCH=$(detect_arch) || error "暂不支持当前系统架构: $(uname -m)"
 DOWNLOAD_URL="https://dl.nssurge.com/snell/snell-server-v5.0.1-linux-${SNELL_ARCH}.zip"
 wget -O /tmp/snell.zip "$DOWNLOAD_URL" || error "下载失败。"
@@ -150,16 +152,16 @@ else
 fi
 
 # 7. Systemd 服务配置
-cat > /etc/systemd/system/snell.service <<EOF
+cat > "$SERVICE_FILE" <<EOF
 [Unit]
-Description=Snell Proxy Service
+Description=Snell v5 Proxy Service
 After=network.target
 
 [Service]
 Type=simple
 User=root
 LimitNOFILE=65535
-ExecStart=/usr/local/bin/snell-server -c /etc/snell/snell-server.conf
+ExecStart=/usr/local/bin/snell-server -c ${CONF_FILE}
 Restart=always
 RestartSec=3s
 
@@ -170,10 +172,10 @@ EOF
 # 8. 启动服务
 info "启动服务..."
 systemctl daemon-reload
-systemctl enable snell --now || error "服务启动/启用失败，请检查日志: journalctl -u snell"
+systemctl enable "$SERVICE_NAME" --now || error "服务启动/启用失败，请检查日志: journalctl -u ${SERVICE_NAME}"
 
 # 9. 结果展示
-if systemctl is-active --quiet snell; then
+if systemctl is-active --quiet "$SERVICE_NAME"; then
     printf "\n%b================================================\n" "$GREEN"
     printf "Snell Server 安装/更新 成功！\n"
     printf "端口: %s\n" "$SNELL_PORT"
@@ -186,5 +188,5 @@ if systemctl is-active --quiet snell; then
     printf "================================================%b\n" "$NC"
     printf "请在控制台安全组放行 TCP %s 端口\n" "$SNELL_PORT"
 else
-    error "启动失败，请检查日志: journalctl -u snell"
+    error "启动失败，请检查日志: journalctl -u ${SERVICE_NAME}"
 fi

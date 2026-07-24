@@ -36,40 +36,40 @@ sudo bash install-snellv5.sh
 - 是否开启 HTTP 混淆。
 - 混淆域名，默认 `www.bing.com`。
 
-如果检测到已有配置文件 `/etc/snell/snell-server.conf`，脚本会询问是否保留原配置。
+如果检测到已有配置文件 `/etc/snell/snell-v5-server.conf`，脚本会询问是否保留原配置。
 
 ## 安装位置
 
 脚本会写入：
 
 - Snell 二进制：`/usr/local/bin/snell-server`
-- 配置文件：`/etc/snell/snell-server.conf`
-- systemd 服务：`/etc/systemd/system/snell.service`
+- 配置文件：`/etc/snell/snell-v5-server.conf`
+- systemd 服务：`/etc/systemd/system/snell-v5.service`
 
 ## 服务管理
 
 查看状态：
 
 ```bash
-systemctl status snell
+systemctl status snell-v5
 ```
 
 重启服务：
 
 ```bash
-sudo systemctl restart snell
+sudo systemctl restart snell-v5
 ```
 
 查看日志：
 
 ```bash
-journalctl -u snell -e
+journalctl -u snell-v5 -e
 ```
 
 停止服务：
 
 ```bash
-sudo systemctl stop snell
+sudo systemctl stop snell-v5
 ```
 
 ## 注意事项
@@ -77,4 +77,3 @@ sudo systemctl stop snell
 - 安装完成后，需要在云服务器安全组或防火墙中放行对应 TCP 端口。
 - 如果下载失败，请确认服务器可以访问 `https://dl.nssurge.com`。
 - 如果已有配置文件并选择保留配置，脚本会继续更新 Snell 二进制和 systemd 服务。
-
